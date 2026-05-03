@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "luciddreamer-agent"
+version = "0.1.0"
+description = "Agent framework for lucid dreaming journals and sleep tracking"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Cocapn", email = "cocapn@example.com" }
+]
+keywords = ["lucid dreaming", "dream journal", "sleep tracking", "agent"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://luciddreamer.ai"
+Documentation = "https://github.com/SuperInstance/luciddreamer-agent"
+Repository = "https://github.com/SuperInstance/luciddreamer-agent"
+Issues = "https://github.com/SuperInstance/luciddreamer-agent/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["luciddreamer_agent"]
