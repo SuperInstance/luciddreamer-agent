@@ -116,3 +116,8 @@ pytest tests/
 ## License
 
 MIT
+
+## Related
+
+- [luciddreamer.ai](https://luciddreamer.ai) — Live site
+- [luciddreamer-ai-pages](https://github.com/SuperInstance/luciddreamer-ai-pages) — GitHub Pages source
