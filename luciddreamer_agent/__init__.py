@@ -5,6 +5,9 @@ Dream journaling, sleep tracking, and lucid dreaming trigger management.
 Integrates with the PLATO memory layer for persistent dream context.
 """
 
+from fleet_agent import BaseAgent
+from fleet_agent.fleet_math import EmergenceDetector, HolonomyConsensus
+
 from dataclasses import dataclass, field
 from datetime import datetime, date, timedelta
 from enum import Enum
@@ -22,7 +25,6 @@ __all__ = [
     "LucidDreamerAgent",
 ]
 
-
 class TriggerType(Enum):
     """Types of lucid dreaming triggers."""
     MILD = "mnemonic induction of lucid dreams"
@@ -31,7 +33,6 @@ class TriggerType(Enum):
     WakeUp = "wake-up technique"
     SSILD = "senses initiated lucid dream"
     Custom = "custom"
-
 
 class DreamMood(Enum):
     """Emotional tone of a dream."""
@@ -43,7 +44,6 @@ class DreamMood(Enum):
     MYSTERIOUS = "mysterious"
     JOYFUL = "joyful"
 
-
 class SleepQuality(Enum):
     """Quality rating for a sleep session."""
     REFRESHING = "refreshing"
@@ -51,7 +51,6 @@ class SleepQuality(Enum):
     AVERAGE = "average"
     RESTLESS = "restless"
     INSOMNIA = "insomnia"
-
 
 @dataclass
 class LucidTrigger:
@@ -86,7 +85,6 @@ class LucidTrigger:
             "times_lucid": self.times_lucid,
             "success_rate": self.success_rate,
         }
-
 
 @dataclass
 class DreamEntry:
@@ -137,7 +135,6 @@ class DreamEntry:
         data["mood"] = DreamMood(data["mood"])
         return cls(**data)
 
-
 @dataclass
 class SleepSession:
     """A sleep period containing one or more dreams."""
@@ -176,7 +173,6 @@ class SleepSession:
             "total_sleep_hours": self.total_sleep_hours,
         }
 
-
 class LucidDreamerAgent:
     """
     Agent for tracking lucid dreaming practice and managing dream journals.
@@ -191,11 +187,24 @@ class LucidDreamerAgent:
         triggers = agent.suggest_triggers()
     """
 
-    def __init__(self, Plato_URL: str = "http://localhost:8847"):
-        self.plato_url = Plato_URL
-        self.sessions: list[SleepSession] = []
-        self.triggers: list[LucidTrigger] = []
-        self._dream_signs: dict[str, int] = {}  # sign -> occurrence count
+        
+    def detect_emergence(self, events: list) -> dict:
+        """Detect emergence via H1 cohomology."""
+        detector = EmergenceDetector()
+        edges = [(events[i], events[i+1]) for i in range(len(events)-1)]
+        detector.update(events, edges)
+        return {"emergence_detected": detector.emergence_detected, "h1_cohomology": detector.h1, "confidence": detector.confidence}
+
+    def check_consensus(self, tile_ids: list[int]) -> bool:
+        """Check holonomy consensus across tiles."""
+        hc = HolonomyConsensus()
+        for tid in tile_ids:
+            hc.add_tile(tid)
+        return hc.check_consensus([tile_ids])
+
+def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
+        super().__init__(vessel=vessel, domain=domain, plato_url=plato_url)
+        self.room = domain
 
     def record_dream(
         self,
