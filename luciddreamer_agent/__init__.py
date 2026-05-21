@@ -204,6 +204,7 @@ class LucidDreamerAgent:
 
 
 class LucidDreamerJournalAgent:
+    LUCIDDREAMER_AI_ROOM = "luciddreamer-agent"
     def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
         super().__init__(vessel=vessel, domain=domain, plato_url=plato_url)
         self.room = domain
