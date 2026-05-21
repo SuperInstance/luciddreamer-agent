@@ -24,14 +24,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://luciddreamer.ai"
-Documentation = "https://github.com/SuperInstance/luciddreamer-agent"
+Homepage = "https://github.com/SuperInstance/luciddreamer-agent"
+Documentation = "https://github.com/SuperInstance/luciddreamer-agent#readme"
 Repository = "https://github.com/SuperInstance/luciddreamer-agent"
 Issues = "https://github.com/SuperInstance/luciddreamer-agent/issues"
-
-dependencies = [
-    "fleet-agent>=0.2.0",
-]
 
 [tool.hatch.build.targets.wheel]
 packages = ["luciddreamer_agent"]

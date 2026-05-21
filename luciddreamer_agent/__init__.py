@@ -202,7 +202,9 @@ class LucidDreamerAgent:
             hc.add_tile(tid)
         return hc.check_consensus([tile_ids])
 
-def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
+
+class LucidDreamerJournalAgent:
+    def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
         super().__init__(vessel=vessel, domain=domain, plato_url=plato_url)
         self.room = domain
 
