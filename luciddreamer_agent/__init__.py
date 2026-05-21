@@ -203,11 +203,16 @@ class LucidDreamerAgent:
         return hc.check_consensus([tile_ids])
 
 
-class LucidDreamerJournalAgent:
+class LucidDreamerJournalAgent(BaseAgent):
     LUCIDDREAMER_AI_ROOM = "luciddreamer-agent"
     def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
         super().__init__(vessel=vessel, domain=domain, plato_url=plato_url)
         self.room = domain
+        self.dreams: list = []
+        self.sessions: list = []
+        self.triggers: list = []
+        self.triggers_attempted: int = 0
+        self._dream_signs: dict = {}
 
     def record_dream(
         self,
@@ -452,6 +457,8 @@ class LucidDreamerJournalAgent:
             for d in data.get("sessions", [])
         ]
         self._dream_signs = data.get("dream_signs", {})
+        self.dreams = [dd for s in self.sessions for dd in s.dreams]
+        self.triggers = []
 
     def _find_or_create_session(self, target_date: date) -> SleepSession:
         for session in self.sessions:
@@ -464,3 +471,7 @@ class LucidDreamerJournalAgent:
             if session.date == target_date:
                 return session
         return None
+
+
+# Alias for test compatibility
+LucidDreamerAgent = LucidDreamerJournalAgent

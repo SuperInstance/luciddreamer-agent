@@ -150,7 +150,7 @@ class TestStatistics:
 class TestExportImport:
     def test_export_import_json(self):
         agent = LucidDreamerAgent()
-        agent.record_dream("Dream A", "Description A", mood=DreamMood.JOYFUL)
+        agent.record_dream("Dream A", "Description A", mood=DreamMood.JOYFUL, session_date=date(2024, 2, 1))
         agent.record_sleep(date(2024, 2, 1), quality=SleepQuality.RESTFUL)
 
         exported = agent.export_json()
