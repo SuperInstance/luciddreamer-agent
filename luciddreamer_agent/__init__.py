@@ -5,8 +5,7 @@ Dream journaling, sleep tracking, and lucid dreaming trigger management.
 Integrates with the PLATO memory layer for persistent dream context.
 """
 
-from fleet_agent import BaseAgent
-from fleet_agent.fleet_math import EmergenceDetector, HolonomyConsensus
+from fleet_agent import EmergenceDetector, HolonomyConsensus
 
 from dataclasses import dataclass, field
 from datetime import datetime, date, timedelta
@@ -203,10 +202,12 @@ class LucidDreamerAgent:
         return hc.check_consensus([tile_ids])
 
 
-class LucidDreamerJournalAgent(BaseAgent):
+class LucidDreamerJournalAgent:
     LUCIDDREAMER_AI_ROOM = "luciddreamer-agent"
     def __init__(self, vessel: str = "luciddreamer-agent", domain: str = LUCIDDREAMER_AI_ROOM, plato_url: str = "http://localhost:8847"):
-        super().__init__(vessel=vessel, domain=domain, plato_url=plato_url)
+        self.vessel = vessel
+        self.domain = domain
+        self.plato_url = plato_url
         self.room = domain
         self.dreams: list = []
         self.sessions: list = []
