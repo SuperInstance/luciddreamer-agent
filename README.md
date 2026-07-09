@@ -1,14 +1,15 @@
 # luciddreamer-agent
 
-Agent framework for [luciddreamer.ai](https://luciddreamer.ai) — lucid dreaming journals, sleep tracking, and trigger management.
+A Python library for recording lucid dreaming journals, sleep sessions, and trigger techniques, with in-memory storage and JSON export/import. Data is held in process memory; persistence is via `export_json()` / `import_json()`.
 
 ## Features
 
-- **Dream Logging** — Record dreams with mood, lucidity level, characters, locations, tags
-- **Sleep Session Tracking** — Track sleep sessions with bedtime/wake time and quality
-- **Lucid Trigger Management** — Register and track effectiveness of MILD, WBTB, SSILD, and custom triggers
-- **Dream Sign Pattern Recognition** — Identify recurring dream signs and patterns
-- **Export/Import** — JSON serialization for backup and portability
+- **Dream logging** — record dreams with mood, lucidity level, characters, locations, tags, and dream signs
+- **Sleep session tracking** — track bedtime/wake time and quality per night
+- **Trigger management** — register techniques (MILD, WBTB, SSILD, Reality Check, custom) and track success rates per attempt
+- **Dream sign frequency** — count recurring dream signs and rank them by frequency
+- **Statistics** — compute lucid dream rate, mood distribution, and per-trigger success rates
+- **Export/import** — serialize and restore all data as JSON
 
 ## Installation
 
@@ -24,7 +25,6 @@ from datetime import date
 from luciddreamer_agent import (
     LucidDreamerAgent,
     DreamMood,
-    DreamEntry,
     SleepQuality,
     TriggerType,
 )
@@ -70,7 +70,7 @@ print(f"Lucid dream rate: {stats['lucid_dream_rate']}")
 
 ## API Overview
 
-### DreamEntry
+### `record_dream(...)`
 
 ```python
 dream = agent.record_dream(
@@ -85,7 +85,9 @@ dream = agent.record_dream(
 )
 ```
 
-### SleepSession
+Each dream is attached to a sleep session for the given date (created automatically if none exists). Dream signs are counted for frequency tracking.
+
+### `record_sleep(...)`
 
 ```python
 session = agent.record_sleep(
@@ -97,6 +99,8 @@ session = agent.record_sleep(
 )
 ```
 
+When both `bedtime` and `wake_time` are provided, `total_sleep_hours` is computed automatically.
+
 ### Triggers
 
 ```python
@@ -106,6 +110,27 @@ trigger = agent.register_trigger(
     description="Wake after 5 hours, stay awake 30-60 min, go back to sleep",
     default_effectiveness=0.6,
 )
+```
+
+Each trigger's `success_rate` starts at `default_effectiveness` (before any attempts) and shifts to `times_lucid / times_used` once attempts are recorded. `suggest_triggers()` returns triggers sorted by success rate.
+
+### `suggest_triggers()`
+
+Returns triggers sorted by success rate (highest first). Before any attempts, the default effectiveness estimate is used.
+
+### `get_top_dream_signs(limit=5)`
+
+Returns `(sign, count)` tuples for the most frequently logged dream signs.
+
+### `get_statistics()`
+
+Returns a dict with `total_sessions`, `total_dreams`, `total_lucid_dreams`, `lucid_dream_rate`, `mood_distribution`, `trigger_statistics`, and `top_dream_signs`.
+
+### Export / Import
+
+```python
+data = agent.export_json()   # returns JSON string
+agent.import_json(data)      # restores all sessions, triggers, and dream signs
 ```
 
 ## Development
@@ -121,5 +146,5 @@ MIT
 
 ## Related
 
-- [luciddreamer.ai](https://luciddreamer.ai) — Live site
+- [luciddreamer.ai](https://luciddreamer.ai)
 - [luciddreamer-ai-pages](https://github.com/SuperInstance/luciddreamer-ai-pages) — GitHub Pages source
