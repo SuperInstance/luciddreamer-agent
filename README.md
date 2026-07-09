@@ -133,6 +133,17 @@ data = agent.export_json()   # returns JSON string
 agent.import_json(data)      # restores all sessions, triggers, and dream signs
 ```
 
+## How it fits (honest scope)
+
+- ✅ **Real today** — a standalone, zero-dependency, in-process library. All
+  data lives in memory for the lifetime of the `LucidDreamerAgent` object;
+  persistence is explicit via `export_json()` / `import_json()`.
+- ⚠️ **The constructor accepts `vessel`, `domain`, and `plato_url`
+  parameters, and the module docstring mentions PLATO integration — but no
+  network or PLATO code exists in this package.** The values are stored and
+  never used; nothing is sent anywhere. Treat them as reserved slots from the
+  wider SuperInstance agent family, not as a capability.
+
 ## Development
 
 ```bash
