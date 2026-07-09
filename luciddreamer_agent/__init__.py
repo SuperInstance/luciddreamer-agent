@@ -5,15 +5,13 @@ Dream journaling, sleep tracking, and lucid dreaming trigger management.
 Integrates with the PLATO memory layer for persistent dream context.
 """
 
-from fleet_agent import EmergenceDetector, HolonomyConsensus
-
 from dataclasses import dataclass, field
 from datetime import datetime, date, timedelta
 from enum import Enum
 from typing import Optional
 import json
 
-__version__ = "0.1.0"
+__version__ = "0.2.1"
 __all__ = [
     "DreamEntry",
     "SleepSession",
@@ -171,36 +169,6 @@ class SleepSession:
             "triggers_attempted": self.triggers_attempted,
             "total_sleep_hours": self.total_sleep_hours,
         }
-
-class LucidDreamerAgent:
-    """
-    Agent for tracking lucid dreaming practice and managing dream journals.
-
-    Provides dream logging, sleep session tracking, trigger management,
-    and pattern recognition for recurring dream signs.
-
-    Example:
-        agent = LucidDreamerAgent()
-        agent.record_dream("Flying over water", mood=DreamMood.EUPHORIC)
-        agent.record_sleep(date.today(), quality=SleepQuality.REFRESHING)
-        triggers = agent.suggest_triggers()
-    """
-
-        
-    def detect_emergence(self, events: list) -> dict:
-        """Detect emergence via H1 cohomology."""
-        detector = EmergenceDetector()
-        edges = [(events[i], events[i+1]) for i in range(len(events)-1)]
-        detector.update(events, edges)
-        return {"emergence_detected": detector.emergence_detected, "h1_cohomology": detector.h1, "confidence": detector.confidence}
-
-    def check_consensus(self, tile_ids: list[int]) -> bool:
-        """Check holonomy consensus across tiles."""
-        hc = HolonomyConsensus()
-        for tid in tile_ids:
-            hc.add_tile(tid)
-        return hc.check_consensus([tile_ids])
-
 
 class LucidDreamerJournalAgent:
     LUCIDDREAMER_AI_ROOM = "luciddreamer-agent"
