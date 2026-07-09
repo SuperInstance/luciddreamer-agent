@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "luciddreamer-agent"
-version = "0.2.0"
+version = "0.2.1"
 description = "Agent framework for lucid dreaming journals and sleep tracking"
 readme = "README.md"
 license = "MIT"
@@ -22,6 +22,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
 
 [project.urls]
 Homepage = "https://github.com/SuperInstance/luciddreamer-agent"

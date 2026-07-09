@@ -19,6 +19,8 @@ pip install luciddreamer-agent
 ## Quick Start
 
 ```python
+from datetime import date
+
 from luciddreamer_agent import (
     LucidDreamerAgent,
     DreamMood,
