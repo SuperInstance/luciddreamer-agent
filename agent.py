@@ -8,7 +8,7 @@ import json, time, random
 from typing import List, Dict
 
 class LucidDreamerAgent:
-    def __init__(self, plato_url="http://147.224.38.131:8847"):
+    def __init__(self, plato_url="http://<BOAT_IP>:8847"):
         self.plato_url = plato_url
         self.creations: List[Dict] = []
         self.themes = ["abyss", "bioluminescence", "shipwreck", "constellation", "tide", "coral", "depths"]
